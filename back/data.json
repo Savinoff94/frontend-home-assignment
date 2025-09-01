@@ -17,6 +17,24 @@
       "role": "user",
       "password": "123123",
       "uuid": "76e9954e-9e5a-4573-bf71-e97632bc6beb"
+    },
+    {
+      "username": "qwe",
+      "role": "user",
+      "password": "qweqwe",
+      "uuid": "71395058-8fcc-4977-90a3-85003b3294ec"
+    },
+    {
+      "username": "asd",
+      "role": "user",
+      "password": "asdasd",
+      "uuid": "8d8e651e-542f-45fc-b2c3-2bde50a5b966"
+    },
+    {
+      "username": "cccc",
+      "role": "user",
+      "password": "cccc",
+      "uuid": "5bada361-7369-430b-b8c0-0e366605a5c5"
     }
   ]
 }

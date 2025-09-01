@@ -1,13 +1,11 @@
 export interface User {
     uuid: string;
     username: string;
-    role: 'user' | 'admin';
+    role: UserRole;
 }
 
-export interface LoginSuccessPayload extends User  {
-    token: string
-}
+export type UserRole = 'user' | 'admin'
 
-export interface LoginFailPayload {
-    message: string
+export interface BaseModal {
+    close: () => void
 }
