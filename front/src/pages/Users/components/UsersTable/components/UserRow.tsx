@@ -7,10 +7,6 @@ interface UserRowProps {
     onDelete: (user: any) => void;
     user: User
 };
-// interface UserRowProps extends User {
-//     currentUserUuid?: string;
-//     onDelete: (user: any) => void;
-// };
   
 export const UserRow = memo(function UserRow({
     user,
