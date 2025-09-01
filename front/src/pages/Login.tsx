@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from 'react';
 import './Login.css';
 import './Users.css';
+import { type LoginSuccessPayload, type LoginFailPayload, type User } from '../types';
 
 // Props for the component, including a callback for when login is successful
 interface LoginPageProps {
-  onLoginSuccess: (token: string, role: string) => void;
+  onLoginSuccess: (token: string, user: User) => void;
 }
 
 export function LoginPage({ onLoginSuccess }: LoginPageProps) {
@@ -30,15 +31,22 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
       });
 
       const data = await response.json();
+      console.log('data: ', data)
 
       if (!response.ok) {
         // If response is not OK, throw an error with the message from the backend
-        throw new Error(data.message || 'Failed to log in');
+        throw new Error((data as LoginFailPayload).message || 'Failed to log in');
       }
 
       // On success, call the parent component's onLoginSuccess function
-      if (data.token) {
-        onLoginSuccess(data.token, data.role);
+      const successPayload = data as LoginSuccessPayload
+    
+      if (successPayload.token) {
+        onLoginSuccess(successPayload.token, {
+          uuid: successPayload.uuid,
+          username: successPayload.username,
+          role: successPayload.role,
+        });
       }
 
     } catch (err) {

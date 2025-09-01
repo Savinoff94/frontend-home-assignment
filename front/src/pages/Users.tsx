@@ -1,20 +1,15 @@
 import { useState, useEffect, type FormEvent } from 'react';
 import './Users.css';
+import { type User } from '../types';
 
-// The User type definition
-interface User {
-  uuid: string;
-  username: string;
-  role: 'user' | 'admin';
-}
 
-interface UsersPageProps {
+export interface UsersPageProps {
   authToken: string;
   onLogout: () => void;
+  currentUser: User
 }
-
 // Main component for the entire page
-export function UsersPage({ authToken, onLogout }: UsersPageProps) {
+export function UsersPage({ authToken, onLogout, currentUser }: UsersPageProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -99,6 +94,7 @@ export function UsersPage({ authToken, onLogout }: UsersPageProps) {
       {/* The table is no longer hidden by non-critical errors */}
       {!isLoading && !error && (
         <UserTable
+          currentUser={currentUser}
           users={users}
           onDeleteClick={(user) => setUserToDelete(user)}
         />
@@ -181,7 +177,7 @@ function Toolbar({ onOpenCreateModal }: { onOpenCreateModal: () => void }) {
 }
 
 // Table to display users
-function UserTable({ users, onDeleteClick }: { users: User[]; onDeleteClick: (user: User) => void; }) {
+function UserTable({ users, onDeleteClick, currentUser }: { users: User[]; onDeleteClick: (user: User) => void; currentUser: User}) {
   return (
     <table className="users-table">
       <thead>
@@ -199,7 +195,10 @@ function UserTable({ users, onDeleteClick }: { users: User[]; onDeleteClick: (us
             <td>{user.username}</td>
             <td>{user.role}</td>
             <td className="actions-column">
-              <button onClick={() => onDeleteClick(user)} className="delete-button">
+              <button
+               disabled={currentUser.uuid === user.uuid}
+               onClick={() => onDeleteClick(user)} className="delete-button"
+              >
                 Delete
               </button>
             </td>
