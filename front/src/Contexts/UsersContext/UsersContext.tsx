@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { type User, type UserRole } from '../../types';
 import { useAuth } from '../AuthContext/AuthContext';
-import { deletehUsersRequest, fetchUsersRequest, createUserRequest } from './api/users';
+import { deleteUserRequest, fetchUsersRequest, createUserRequest } from './api/users';
 
 type UsersContextValue = {
     users: User[];
@@ -37,10 +37,8 @@ export function UsersProvider({ children }: { children: React.ReactNode }) {
             setIsLoading(true);
             setError(null);
             try {
-                const res = await fetchUsersRequest(token)
-                if (!res.ok) throw new Error('Failed to fetch users. You may not have permission.');
-                const data = (await res.json()) as User[];
-                setUsers(data);
+                const res = await fetchUsersRequest()
+                setUsers(res);
             } catch (e) {
                 setError((e as Error).message);
                 setUsers([]);
@@ -59,13 +57,7 @@ export function UsersProvider({ children }: { children: React.ReactNode }) {
             if (!token) throw new Error('Not authenticated');
             if (!userToDelete) return;
 
-            const res = await deletehUsersRequest(userToDelete.uuid, token);
-
-            const data = await res.json().catch(() => ({}));
-
-            if (!res.ok) {
-                throw new Error(data.message || 'Failed to delete user.');
-            }
+            const res = await deleteUserRequest(userToDelete.uuid);
 
             setUsers(prev => prev.filter(u => u.uuid !== userToDelete.uuid));
         
@@ -85,16 +77,10 @@ export function UsersProvider({ children }: { children: React.ReactNode }) {
         setError(null);
 
         try {
-            const response = await createUserRequest({ username, password, role }, token) 
-                
-            const data = await response.json();
+            const response = await createUserRequest({ username, password, role }) 
             
-            if (!response.ok) {
-                throw new Error(data.message || 'Failed to create user.');
-            }
-            const newUser = data as User;
             successCallback();
-            setUsers((prev) => [...prev, {username: newUser.username, role: newUser.role, uuid: newUser.uuid}])
+            setUsers((prev) => [...prev, {username: response.username, role: response.role, uuid: response.uuid}])
         } catch (err) {
             setError((err as Error).message);
         } finally {

@@ -3,6 +3,7 @@ import { RoundedPaper } from "../../../../components/RoundedPaper/RoundedPaper";
 import { useAuth } from "../../../../Contexts/AuthContext/AuthContext";
 import { useUsers } from "../../../../Contexts/UsersContext/UsersContext";
 import { ConfirmDeleteModal } from "../modals/DeleteUserModal";
+import { UserRow } from "./components/UserRow";
 export function UsersTable() {
     const {user: currentUser} = useAuth()
     const {users, setUserToDelete, userToDelete} = useUsers()
@@ -21,21 +22,12 @@ export function UsersTable() {
                     </TableHead>
                     <TableBody>
                     {users.map((user) => (
-                        <TableRow key={user.uuid}>
-                        <TableCell>{user.uuid}</TableCell>
-                        <TableCell>{user.username}</TableCell>
-                        <TableCell>{user.role}</TableCell>
-                        <TableCell>
-                            <Button
-                            variant="delete"
-                            size="small"
-                            disabled={currentUser?.uuid === user.uuid}
-                            onClick={() => setUserToDelete(user)}
-                            >
-                            Delete
-                            </Button>
-                        </TableCell>
-                        </TableRow>
+                        <UserRow
+                            key={user.uuid}
+                            user={user}
+                            currentUserUuid={currentUser?.uuid}
+                            onDelete={setUserToDelete}
+                        />
                     ))}
                     </TableBody>
                 </Table>
