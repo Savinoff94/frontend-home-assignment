@@ -1,4 +1,5 @@
 import { type User } from "../../../types";
+import api from "../../../api/axios";
 
 export interface LoginSuccessPayload extends User  {
     token: string
@@ -9,18 +10,14 @@ export interface LoginFailPayload {
 }
 
 export async function loginRequest(username: string, password: string): Promise<LoginSuccessPayload> {
-    
-    const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-    });
-  
-    const data = await res.json();
-  
-    if (!res.ok) {    
-      throw new Error((data as LoginFailPayload).message || 'Failed to log in');
+    try {
+        const res = await api.post<LoginSuccessPayload>("/login", {
+            username,
+            password,
+        });
+        return res.data;
+      } catch (err: any) {
+        const message = err.response?.data?.message || "Failed to log in";
+        throw new Error(message);
     }
-  
-    return data as LoginSuccessPayload;
 }
