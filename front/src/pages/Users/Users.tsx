@@ -1,5 +1,4 @@
 import { Notification } from '../../components/Notification/Notification';
-import './Users.css';
 import { UsersTable } from './components/UsersTable/UsersTable';
 import { Toolbar } from './components/Toolbar/Tooldbar';
 import { Header } from '../../components/Header/Header';

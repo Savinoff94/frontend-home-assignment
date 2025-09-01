@@ -1,3 +1,5 @@
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Paper } from "@mui/material";
 import { useAuth } from "../../../../Contexts/AuthContext/AuthContext";
 import { useUsers } from "../../../../Contexts/UsersContext/UsersContext";
 import { ConfirmDeleteModal } from "../modals/DeleteUserModal";
@@ -7,35 +9,37 @@ export function UsersTable() {
 
     return (
         <>
-        <table className="users-table">
-        <thead>
-            <tr>
-            <th>UUID</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th className="actions-column">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {users.map((user) => (
-            <tr key={user.uuid}>
-                <td>{user.uuid}</td>
-                <td>{user.username}</td>
-                <td>{user.role}</td>
-                <td className="actions-column">
-                <button
-                    disabled={currentUser?.uuid === user.uuid}
-                    onClick={() => {
-                        setUserToDelete(user)
-                    }} className="delete-button"
-                >
-                    Delete
-                </button>
-                </td>
-            </tr>
-            ))}
-        </tbody>
-        </table>
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                <TableRow>
+                    <TableCell>UUID</TableCell>
+                    <TableCell>Username</TableCell>
+                    <TableCell>Role</TableCell>
+                    <TableCell>Actions</TableCell>
+                </TableRow>
+                </TableHead>
+                <TableBody>
+                {users.map((user) => (
+                    <TableRow key={user.uuid}>
+                    <TableCell>{user.uuid}</TableCell>
+                    <TableCell>{user.username}</TableCell>
+                    <TableCell>{user.role}</TableCell>
+                    <TableCell>
+                        <Button
+                        variant="delete"
+                        size="small"
+                        disabled={currentUser?.uuid === user.uuid}
+                        onClick={() => setUserToDelete(user)}
+                        >
+                        Delete
+                        </Button>
+                    </TableCell>
+                    </TableRow>
+                ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
         {userToDelete && <ConfirmDeleteModal/>}
         </>
     );

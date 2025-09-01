@@ -1,5 +1,12 @@
 import { useAuth } from "../../../../Contexts/AuthContext/AuthContext";
-
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 interface LogoutModalProps{
   cancelLogout: () => void;
 }
@@ -7,27 +14,31 @@ interface LogoutModalProps{
 export function LogoutModal({cancelLogout} : LogoutModalProps) {
     const {logout} = useAuth()
     return (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Confirm Logout</h2>
-            <p>Are you sure you want to log out?</p>
-            <div className="modal-actions">
-              <button
-                type="button"
-                onClick={cancelLogout}
-                className="button-secondary"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={logout}
-                className="logout-button"
-              >
-                Log Out
-              </button>
-            </div>
-          </div>
-        </div>
+      <Dialog
+      open
+      onClose={cancelLogout}
+      aria-labelledby="logout-dialog-title"
+      aria-describedby="logout-dialog-description"
+      >
+        <DialogTitle id="logout-dialog-title">Confirm Logout</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="logout-dialog-description">
+            Are you sure you want to log out?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancelLogout} variant="secondary" size="small">
+            Cancel
+          </Button>
+          <Button
+            onClick={logout}
+            variant="delete"
+            size="small"
+            autoFocus
+          >
+            Log Out
+          </Button>
+        </DialogActions>
+      </Dialog>
     )
 }

@@ -1,7 +1,14 @@
 import { useState, type FormEvent } from 'react';
-import './Login.css';
-import '../Users/Users.css';
 import { useAuth } from '../../Contexts/AuthContext/AuthContext';
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Stack,
+  Alert,
+} from "@mui/material";
 
 
 
@@ -18,36 +25,61 @@ export function LoginPage() {
   };
 
   return (
-    <div className="login-page-container">
-      <div className="login-form-container">
-        <h2>Admin Login</h2>
+<Container
+      maxWidth="xs"
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{ p: 4, borderRadius: 2, width: "100%" }}
+      >
+        <Typography variant="h5" component="h2" align="center" gutterBottom>
+          Admin Login
+        </Typography>
+
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input
+          <Stack spacing={2}>
+            <TextField
               id="username"
-              type="text"
+              label="Username"
+              variant="outlined"
+              fullWidth
+              required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required
             />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
+
+            <TextField
               id="password"
+              label="Password"
               type="password"
+              variant="outlined"
+              fullWidth
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
-          </div>
-          {error && <p className="error-message">{error}</p>}
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Logging in...' : 'Login'}
-          </button>
+
+            {error && (
+              <Alert severity="error">{error}</Alert>
+            )}
+
+            <Button
+              type="submit"
+              variant="primary"   // uses your gradient theme variant
+              disabled={isLoading}
+              fullWidth
+            >
+              {isLoading ? "Logging in..." : "Login"}
+            </Button>
+          </Stack>
         </form>
-      </div>
-    </div>
+      </Paper>
+    </Container>
   );
 }
