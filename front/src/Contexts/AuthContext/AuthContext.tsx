@@ -46,12 +46,6 @@ export function AuthProvider({children} : {children: React.ReactNode}) {
         setError(null)
         try {
             const data = await loginRequest(username, password)
-      
-            if (data.role !== 'admin') {
-              setError('Only admin users are allowed.');
-              setIsLoading(false);
-              return;
-            }
 
             const newUser = {
                 uuid: data.uuid,
@@ -67,7 +61,7 @@ export function AuthProvider({children} : {children: React.ReactNode}) {
             if (newUser.role === 'admin') {
                 navigate('/users', { replace: true });
             } else {
-                navigate('/login', { replace: true });
+                navigate('/myUser', { replace: true });
             }
                       
         } catch (err) {

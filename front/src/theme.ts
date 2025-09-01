@@ -9,6 +9,9 @@ declare module "@mui/material/Button" {
 }
 
 export const theme = createTheme({
+  typography: {
+    fontFamily: "Alef, Arial, sans-serif",
+  },
   palette: {
     background: {
       default: "#f0f2f5",   

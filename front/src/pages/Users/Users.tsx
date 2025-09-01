@@ -1,8 +1,9 @@
 import { Notification } from '../../components/Notification/Notification';
 import { UsersTable } from './components/UsersTable/UsersTable';
 import { Toolbar } from './components/Toolbar/Tooldbar';
-import { Header } from '../../components/Header/Header';
+import { LoadingSpinner } from '../../components/Spinner/Spinner';
 import { useUsers } from '../../Contexts/UsersContext/UsersContext';
+import { Alert } from '@mui/material';
 
 export function UsersPage() {
   const {
@@ -17,14 +18,10 @@ export function UsersPage() {
       
       {notification && <Notification message={notification} onClose={() => setNotification(null)} />}
 
-      <Header/>
-
       <Toolbar/>
 
-      {isLoading && <p>Loading users...</p>}
-      {/* The main error message is only for critical load failures */}
-      {error && <p className="error-message">{error}</p>}
-
+      {isLoading && <LoadingSpinner/>}
+      {error && <Alert severity="error">{error}</Alert>}
       {!isLoading && !error && (
         <UsersTable/>
       )}
