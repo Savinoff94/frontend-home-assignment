@@ -16,3 +16,5 @@ In my opinion, it would be better if the test were a little harder but shorter. 
 - Each article consisted of an image and text.  
 - I had to write a script that substituted the image with a video, but not for every image.  
 - For example, I substituted the image in one article, then skipped images within a certain radius, and continued until the end of the page.  
+
+It took me  a little longer than 3 hours
